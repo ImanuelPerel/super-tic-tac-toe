@@ -6,4 +6,15 @@ using System.Threading.Tasks;
 
 namespace Super_Tic_Tac_Toe.Model;
 
-public enum 
+public class OuterBoard
+{
+    const int BoardSize = 3;
+    const int howManyToWin = 3;
+    InnerBoard[,] Board;
+
+    char? CalcWin()
+    {
+
+    }
+
+}
