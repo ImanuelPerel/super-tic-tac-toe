@@ -22,6 +22,9 @@ public class InnerBoard
             board[x, y] = player;
         else throw new AlreadyHasAValueException($"the place at the index {x},{y} is already full.");
     }
+
+
+    //if win=metaData.defaultchar then it means that this board is a tie
     public char? Win = null;
 
     
@@ -36,11 +39,18 @@ public class InnerBoard
         if(Win!= null) return Win;
         if (MetaData.outOfRange(x, y)) return null;
         char player = board[x, y];
+
+        if (board.Cast<char>().All(ch => ch != MetaData.defaultChar))
+        {
+            Win = MetaData.defaultChar;
+        }
         if (player == MetaData.defaultChar) return null;
         if (1 + howManyThere(x, y, player, new Direction { x = 1, y = 0 }) + howManyThere(x, y, player, new Direction { x = -1, y = 0 }) >= MetaData.howManyToWin) Win= player;
         if (1 + howManyThere(x, y, player, new Direction { x = 1, y = 1 }) + howManyThere(x, y, player, new Direction { x = -1, y = -1 }) >= MetaData.howManyToWin) Win = player;
         if (1 + howManyThere(x, y, player, new Direction { x = 0, y = 1 }) + howManyThere(x, y, player, new Direction { x = 0, y = -1 }) >= MetaData.howManyToWin) Win = player;
         if (1 + howManyThere(x, y, player, new Direction { x = -1, y = 1 }) + howManyThere(x, y, player, new Direction { x = 1, y = -1 }) >= MetaData.howManyToWin) Win = player;
+
+
         return Win;
     }
     public InnerBoard()

@@ -13,8 +13,8 @@ public class OuterBoard
 
 
     InnerBoard[,] Board;
-    Location currentInnerBoard0;
-    (int, int)? currentInnerBoard1=null;
+    //Location currentInnerBoard0;
+    (int, int)? currentInnerBoard1 = null;
     public OuterBoard()
     {
         Board = new InnerBoard[MetaData.BoardSize, MetaData.BoardSize];
@@ -25,7 +25,7 @@ public class OuterBoard
                 Board[i, j] = new InnerBoard();
             }
         }
-        currentInnerBoard0 = Location.ALL;
+        //currentInnerBoard0 = Location.ALL;
         currentInnerBoard1 = null;
     }
     private int howManyThere(int x, int y, char player, Direction dir)
@@ -50,12 +50,23 @@ public class OuterBoard
 
     public void TakeTurn(char player, int x, int y, int xBoard = 0, int yBoard = 0)
     {
+        if (MetaData.outOfRange(x, y))
+            throw new ArgumentOutOfRangeException();
         if (currentInnerBoard1 == null)
+        {
+            if (MetaData.outOfRange(xBoard, yBoard))
+                throw new ArgumentOutOfRangeException();
             Board[xBoard, yBoard].TakeTurn(player, x, y);
+        }
+
         else
-        { 
+        {
             var tmp = ((int, int))currentInnerBoard1;
-            Board[tmp.Item1,tmp.Item2].TakeTurn(player, x, y);
-        } 
+            Board[tmp.Item1, tmp.Item2].TakeTurn(player, x, y);
+
+            if (Board[x, y].Win != null) //אם עדיין אפשר לשים ב(x,y) 
+                currentInnerBoard1 = (x, y);
+            else currentInnerBoard1 = null;
+        }
     }
 }
