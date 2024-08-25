@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace Super_Tic_Tac_Toe
+namespace SuperTicTacToe
 {
     /// <summary>
     /// Interaction logic for App.xaml

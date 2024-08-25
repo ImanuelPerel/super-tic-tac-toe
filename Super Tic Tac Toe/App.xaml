@@ -1,7 +1,7 @@
-﻿<Application x:Class="Super_Tic_Tac_Toe.App"
+﻿<Application x:Class="SuperTicTacToe.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Super_Tic_Tac_Toe"
+             xmlns:local="clr-namespace:SuperTicTacToe"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          

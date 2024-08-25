@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Super_Tic_Tac_Toe
+namespace SuperTicTacToe
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

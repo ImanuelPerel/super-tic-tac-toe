@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Super_Tic_Tac_Toe.Model;
+namespace SuperTicTacToe.Model;
 
 public static class MetaData
 {

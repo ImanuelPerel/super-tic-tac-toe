@@ -8,7 +8,7 @@ using System.Windows.Automation.Peers;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Super_Tic_Tac_Toe.Model;
+namespace SuperTicTacToe.Model;
 
 public class InnerBoard
 {
