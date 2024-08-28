@@ -67,5 +67,6 @@ public class OuterBoard
                 currentInnerBoard1 = (xInner, yInner);
             else currentInnerBoard1 = null;
         }
+        CalcWin(xOuter, yOuter);
     }
 }

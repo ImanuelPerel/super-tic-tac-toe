@@ -100,7 +100,9 @@ public class TicTacToeViewModel
 
     private void Click(object sender, RoutedEventArgs e)
         {
-            Button clickedButton = (Button)sender;
+        //    Button clickedButton = (Button)sender;
+        if (!(sender is Button clickedButton))
+            throw new ArgumentException("can't ");
 
             // Identify which button was clicked and update the game state
             int innerRow = Grid.GetRow(clickedButton);

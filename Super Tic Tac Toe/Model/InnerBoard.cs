@@ -26,6 +26,7 @@ public class InnerBoard
         if (board[x, y] == Empty)
             board[x, y] = player;
         else throw new AlreadyHasAValueException($"the place at the index {x},{y} is already full.");
+        CalcWin(x, y);
     }
 
     public static bool? DefultWin => null;
