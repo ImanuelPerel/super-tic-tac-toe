@@ -28,44 +28,43 @@ public class OuterBoard
         //currentInnerBoard0 = Location.ALL;
         currentInnerBoard1 = null;
     }
-    private int howManyThere(int x, int y, char player, Direction dir)
+    private int howManyThere(int x, int y, bool player, Direction dir)
     {
-        if (MetaData.outOfRange(x, y)) return 0;
+        if (MetaData.OutOfRange(x, y)) return 0;
         if (Board[x, y].Win != player) return 0;
         return 1 + howManyThere(x + dir.x, y + dir.y, player, dir);
     }
-    public char? CalcWin(int x, int y)
+    public bool? CalcWin(int x, int y)
     {
-        ;
-        if (MetaData.outOfRange(x, y)) return null;
-        char? player1 = Board[x, y].Win;
-        if (player1 == null) return null;
-        char player = (char)player1;
+        if (MetaData.OutOfRange(x, y)) return InnerBoard.DefultWin;
+        bool? player1 = Board[x, y].Win;
+        if (player1 == InnerBoard.Empty) return InnerBoard.DefultWin;
+        bool player = (bool)player1!;
         if (1 + howManyThere(x, y, player, new Direction { x = 1, y = 0 }) + howManyThere(x, y, player, new Direction { x = -1, y = 0 }) >= MetaData.howManyToWin) return player;
-        if (1 + howManyThere(x, y, player, new Direction { x = 1, y = 1 }) + howManyThere(x, y, player, new Direction { x = -1, y = -1 }) >= MetaData.howManyToWin) return player;
-        if (1 + howManyThere(x, y, player, new Direction { x = 0, y = 1 }) + howManyThere(x, y, player, new Direction { x = 0, y = -1 }) >= MetaData.howManyToWin) return player;
-        if (1 + howManyThere(x, y, player, new Direction { x = -1, y = 1 }) + howManyThere(x, y, player, new Direction { x = 1, y = -1 }) >= MetaData.howManyToWin) return player;
-        return null;
+        else if (1 + howManyThere(x, y, player, new Direction { x = 1, y = 1 }) + howManyThere(x, y, player, new Direction { x = -1, y = -1 }) >= MetaData.howManyToWin) return player;
+        else if (1 + howManyThere(x, y, player, new Direction { x = 0, y = 1 }) + howManyThere(x, y, player, new Direction { x = 0, y = -1 }) >= MetaData.howManyToWin) return player;
+        else if (1 + howManyThere(x, y, player, new Direction { x = -1, y = 1 }) + howManyThere(x, y, player, new Direction { x = 1, y = -1 }) >= MetaData.howManyToWin) return player;
+        return InnerBoard.DefultWin;
     }
 
-    public void TakeTurn(char player, int x, int y, int xBoard = 0, int yBoard = 0)
+    public void TakeTurn(bool player, int xInner, int yInner, int xOuter = 0, int yOuter = 0)
     {
-        if (MetaData.outOfRange(x, y))
+        if (MetaData.OutOfRange(xInner, yInner))
             throw new ArgumentOutOfRangeException();
         if (currentInnerBoard1 == null)
         {
-            if (MetaData.outOfRange(xBoard, yBoard))
+            if (MetaData.OutOfRange(xOuter, yOuter))
                 throw new ArgumentOutOfRangeException();
-            Board[xBoard, yBoard].TakeTurn(player, x, y);
+            Board[xOuter, yOuter].TakeTurn(player, xInner, yInner);
         }
 
         else
         {
             var tmp = ((int, int))currentInnerBoard1;
-            Board[tmp.Item1, tmp.Item2].TakeTurn(player, x, y);
+            Board[tmp.Item1, tmp.Item2].TakeTurn(player, xInner, yInner);
 
-            if (Board[x, y].Win != null) //אם עדיין אפשר לשים ב(x,y) 
-                currentInnerBoard1 = (x, y);
+            if (Board[xInner, yInner].Win != InnerBoard.DefultWin) //אם עדיין אפשר לשים ב(xInner,yInner) 
+                currentInnerBoard1 = (xInner, yInner);
             else currentInnerBoard1 = null;
         }
     }

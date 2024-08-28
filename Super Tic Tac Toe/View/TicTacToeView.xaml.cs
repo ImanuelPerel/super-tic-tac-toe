@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SuperTicTacToe.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,9 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml.Linq;
 
 
-namespace Super_Tic_Tac_Toe.View;
+namespace SuperTicTacToe.View;
 
 /// <summary>
 /// Interaction logic for TicTacToeView.xaml
@@ -20,5 +22,4 @@ public partial class TicTacToeView : Page
     {
         InitializeComponent();
     }
-
 }

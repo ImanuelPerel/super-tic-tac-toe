@@ -12,7 +12,7 @@ public static class MetaData
     public const int howManyToWin = 3;
     public const char defaultChar = ' ';
 
-    public static bool outOfRange(int x, int y)
+    public static bool OutOfRange(int x, int y)
     {
         if (x < 0 || x > MetaData.BoardSize || y < 0 || y < MetaData.BoardSize) return true;
         return false;
