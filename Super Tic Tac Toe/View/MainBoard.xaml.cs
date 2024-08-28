@@ -1,6 +1,7 @@
 ﻿using SuperTicTacToe.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,25 +12,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SuperTicTacToe.View
 {
     /// <summary>
-    /// Interaction logic for TicTacToeView.xaml
+    /// Interaction logic for MainBoard.xaml
     /// </summary>
-    public partial class TicTacToeView : Window
+    public partial class MainBoard : Window
     {
+        protected TicTacToeViewModel viewModel=new TicTacToeViewModel();
+        
 
-        public TicTacToeView()
+        public MainBoard()
         {
             InitializeComponent();
-        }
-
-        private void Play(object sender, RoutedEventArgs e)
-        {
-            new MainBoard().Show();
+            //this.DataContext = viewModel;
+            MainGrid = viewModel.MainGrid;
         }
     }
 }
