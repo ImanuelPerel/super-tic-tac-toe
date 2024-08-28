@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SuperTicTacToe.View"
         mc:Ignorable="d"
         Title="MainBoard" Height="450" Width="800">
-    <Grid x:Name="MainGrid">
+    <Grid x:Name="_mainGrid">
         
     </Grid>
 </Window>

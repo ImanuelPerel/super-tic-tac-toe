@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SuperTicTacToe.Model;
+namespace SuperTicTacToe;
 
 public static class MetaData
 {
@@ -14,7 +14,7 @@ public static class MetaData
 
     public static bool OutOfRange(int x, int y)
     {
-        if (x < 0 || x > MetaData.BoardSize || y < 0 || y < MetaData.BoardSize) return true;
+        if (x < 0 || x >= BoardSize || y < 0 || y >= BoardSize) return true;
         return false;
     }
 

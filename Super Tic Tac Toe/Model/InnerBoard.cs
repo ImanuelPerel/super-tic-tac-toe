@@ -19,6 +19,7 @@ public class InnerBoard
 {
     public static bool? Empty => null;
     bool?[,] board;
+    public bool? this[int x, int y] { get => board[x, y]; }
     public void TakeTurn(bool player, int x, int y)
     {
         if (x < 0 || x >= MetaData.BoardSize) throw new ArgumentOutOfRangeException("index x is out of range");
