@@ -1,4 +1,4 @@
-﻿<Page x:Class="SuperTicTacToe.View.TicTacToeView"
+﻿<Window x:Class="SuperTicTacToe.View.TicTacToeView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,6 +9,7 @@
       Title="TicTacToeView">
 
     <Grid>
-        
+        <Button Content="play" Click="Play"/>
+
     </Grid>
-</Page>
+</Window>

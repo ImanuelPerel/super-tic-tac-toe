@@ -15,21 +15,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SuperTicTacToe.ViewModel
-{
+namespace SuperTicTacToe.ViewModel;
+
     /// <summary>
     /// Interaction logic for TicTacToeViewModel.xaml
     /// </summary>
-    public class TicTacToeViewModel : INotifyPropertyChanged
+public class TicTacToeViewModel 
     {
         /// <summary>
         /// false for 'O'
         /// true for 'X'
         /// </summary>
         internal bool turn = true;
-        internal OuterBoard board;
+    internal OuterBoard board=new OuterBoard();
 
-        private Grid MainGrid;
+    public Grid MainGrid { get; private set; } =new Grid();
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -83,7 +83,7 @@ namespace SuperTicTacToe.ViewModel
                             // Set Grid position for button
                             Grid.SetRow(button, row);
                             Grid.SetColumn(button, col);
-                            button.Click += Button_Click; // Attach event handler
+                        button.Click += Click; // Attach event handler
 
                             // Add button to smallGrid
                             smallGrid.Children.Add(button);
@@ -98,7 +98,7 @@ namespace SuperTicTacToe.ViewModel
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+    private void Click(object sender, RoutedEventArgs e)
         {
             Button clickedButton = (Button)sender;
 
