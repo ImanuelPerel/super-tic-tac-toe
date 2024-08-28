@@ -14,7 +14,7 @@ public class OuterBoard
     private InnerBoard[,] board;
     public InnerBoard this[int x, int y] { get => board[x, y]; }
 
-  
+
     /// <summary>
     /// represents the current available inner board , or null if all the outer board is available
     /// </summary>
@@ -35,19 +35,19 @@ public class OuterBoard
     {
         if (MetaData.OutOfRange(x, y)) return 0;
         if (board[x, y].Win != player) return 0;
-        return 1 + howManyThere(x + dir.x, y + dir.y, player, dir);
+        return 1 + howManyThere(x + dir.X, y + dir.Y, player, dir);
     }
     public bool? CalcWin(int x, int y)
     {
         if (MetaData.OutOfRange(x, y)) return InnerBoard.DefultWin;
-  
+
         bool? player1 = board[x, y].Win;
         if (player1 == InnerBoard.Empty) return InnerBoard.DefultWin;
         bool player = (bool)player1!;
-        if (1 + howManyThere(x, y, player, new Direction { x = 1, y = 0 }) + howManyThere(x, y, player, new Direction { x = -1, y = 0 }) >= MetaData.howManyToWin) return player;
-        else if (1 + howManyThere(x, y, player, new Direction { x = 1, y = 1 }) + howManyThere(x, y, player, new Direction { x = -1, y = -1 }) >= MetaData.howManyToWin) return player;
-        else if (1 + howManyThere(x, y, player, new Direction { x = 0, y = 1 }) + howManyThere(x, y, player, new Direction { x = 0, y = -1 }) >= MetaData.howManyToWin) return player;
-        else if (1 + howManyThere(x, y, player, new Direction { x = -1, y = 1 }) + howManyThere(x, y, player, new Direction { x = 1, y = -1 }) >= MetaData.howManyToWin) return player;
+        if (1 + howManyThere(x, y, player, Direction.Up) + howManyThere(x, y, player, Direction.Down) >= MetaData.howManyToWin) return player;
+        else if (1 + howManyThere(x, y, player, Direction.Right) + howManyThere(x, y, player, Direction.Left) >= MetaData.howManyToWin) return player;
+        else if (1 + howManyThere(x, y, player, Direction.UpRight) + howManyThere(x, y, player, Direction.DownLeft) >= MetaData.howManyToWin) return player;
+        else if (1 + howManyThere(x, y, player, Direction.DownLeft) + howManyThere(x, y, player, Direction.UpRight) >= MetaData.howManyToWin) return player;
         return InnerBoard.DefultWin;
     }
 
@@ -55,7 +55,7 @@ public class OuterBoard
     {
         if (MetaData.OutOfRange(xInner, yInner))
             throw new ArgumentOutOfRangeException();
-        if (CurrentInnerBoard == null)
+        if (CurrentInnerBoard is not (int, int) tmp)
         {
             if (MetaData.OutOfRange(xOuter, yOuter))
                 throw new ArgumentOutOfRangeException();
@@ -64,13 +64,13 @@ public class OuterBoard
 
         else
         {
-            var tmp = ((int, int))CurrentInnerBoard;
             board[tmp.Item1, tmp.Item2].TakeTurn(player, xInner, yInner);
 
-            if (board[xInner, yInner].Win != InnerBoard.DefultWin) //אם עדיין אפשר לשים ב(xInner,yInner) 
-                CurrentInnerBoard = (xInner, yInner);
-            else CurrentInnerBoard = null;
+
         }
-        CalcWin(xOuter, yOuter);
+        if (board[xInner, yInner].Win != InnerBoard.DefultWin) //אם עדיין אפשר לשים ב(xInner,yInner) 
+            CurrentInnerBoard = (xInner, yInner);
+        else CurrentInnerBoard = null;
+
     }
 }

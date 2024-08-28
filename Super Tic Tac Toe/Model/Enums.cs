@@ -5,4 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SuperTicTacToe.Model;
+public enum Winner
+{
+    DEFUALT,
+    TIE,
+    TRUE, //for player X
+    FALSE //for player O
+}
 

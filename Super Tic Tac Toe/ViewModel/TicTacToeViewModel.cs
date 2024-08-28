@@ -52,7 +52,7 @@ public class TicTacToeViewModel
         int outerRow = Grid.GetRow((Grid)clickedButton.Parent);
         int outerColumn = Grid.GetColumn((Grid)clickedButton.Parent);
         clickedButton.IsEnabled = false;
-        clickedButton.Content =MetaData.
+        clickedButton.Content = MetaData.symbols[turn];
         board.TakeTurn(
             xInner: innerRow,
             yInner: innerColumn,
@@ -64,12 +64,13 @@ public class TicTacToeViewModel
        BoardChange=(BoardChange.Item1,board.CurrentInnerBoard);
 
 
-
+        turn = !turn;
     }
 
     public bool IsEnabled(int innerX,int innerY,int outerX ,int outerY)
     {
         if(MetaData.OutOfRange(innerX,innerY)||MetaData.OutOfRange(outerX,outerY)||
+            board[outerX, outerY].Win is not null||
             board[outerX, outerY][innerX,innerY] is not null)
             return false;
         return board.CurrentInnerBoard is not (int,int) currentInnerBoard ||

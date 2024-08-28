@@ -79,7 +79,7 @@ namespace SuperTicTacToe.View
                         {
                             Button button = new Button
                             {
-                                Content = InnerBoard.Empty, // Placeholder content
+                                Content =MetaData.DefualtChar, // Placeholder content
                                 Margin = new Thickness(1),
                                 IsEnabled = true
                             };
