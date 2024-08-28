@@ -18,7 +18,7 @@ namespace SuperTicTacToe.View
     /// <summary>
     /// Interaction logic for TicTacToeView.xaml
     /// </summary>
-    public partial class TicTacToeView : UserControl
+    public partial class TicTacToeView : Page
     {
         public TicTacToeView()
         {

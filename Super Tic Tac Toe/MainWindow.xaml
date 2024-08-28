@@ -7,10 +7,8 @@
         mc:Ignorable="d"
         xmlns:view="clr-namespace:SuperTicTacToe.View"
         Title="MainWindow" Height="450" Width="800">
-   
-    <Grid>
-        <view:TicTacToeView/>
-    </Grid>
+
+    <view:TicTacToeView/>
 
 </Window>
 
