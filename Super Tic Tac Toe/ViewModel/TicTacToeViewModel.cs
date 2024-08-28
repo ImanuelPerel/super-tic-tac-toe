@@ -19,7 +19,7 @@ namespace SuperTicTacToe.ViewModel
     /// <summary>
     /// Interaction logic for TicTacToeViewModel.xaml
     /// </summary>
-    public partial class TicTacToeViewModel : Page
+    public partial class TicTacToeViewModel 
     {
         /// <summary>
         /// false for 'O'
@@ -31,7 +31,7 @@ namespace SuperTicTacToe.ViewModel
         private Grid MainGrid;
         public TicTacToeViewModel()
         {
-            InitializeComponent();
+            
             InitializeDynamicGrid();
         }
 
