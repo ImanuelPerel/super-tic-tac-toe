@@ -1,6 +1,7 @@
 ﻿using SuperTicTacToe.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace SuperTicTacToe.ViewModel
     /// <summary>
     /// Interaction logic for TicTacToeViewModel.xaml
     /// </summary>
-    public partial class TicTacToeViewModel : Page
+    public class TicTacToeViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// false for 'O'
@@ -29,9 +30,12 @@ namespace SuperTicTacToe.ViewModel
         internal OuterBoard board;
 
         private Grid MainGrid;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public TicTacToeViewModel()
         {
-            InitializeComponent();
+         
             InitializeDynamicGrid();
         }
 

@@ -14,7 +14,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        ViewModel= new TicTacToeViewModel();
-        this.DataContext = ViewModel;
+        //ViewModel= new TicTacToeViewModel();
+        //this.DataContext = ViewModel;
     }
 }
