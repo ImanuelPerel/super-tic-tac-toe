@@ -9,11 +9,11 @@ namespace SuperTicTacToe;
 
 public static class MetaData
 {
-    static public int BoardSize { get; set; } = 3;
+    static public int BoardSize { get; set; } = 2;
     public static int howManyToWin { get; set; } = 3;
-    public static char DefualtChar { get; set; } = '_';
+    public static char DefualtChar { get; set; } = ' ';
 
-    static public readonly Dictionary<bool?,char > symbols = new()
+    static public readonly Dictionary<bool,char > symbols = new()
     {
         {true,'X' },
         {false,'O' }

@@ -9,13 +9,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace SuperTicTacToe.Model;
+public interface IReadOnlyInnerBoard
+{
+    Winner Win { get; }
+    bool? this[int x, int y] { get; }
+}
 /// <summary>
 /// the board contain bool? type
 /// true for 'X'
 /// false for 'O'
 /// and null for an empty place
 /// </summary>
-public class InnerBoard
+public class InnerBoard : IReadOnlyInnerBoard
 {
     public static bool? Empty => null;
     bool?[,] board;
@@ -30,20 +35,8 @@ public class InnerBoard
         CalcWin(x, y);
     }
 
-    public Winner Win { get; protected set; } = Winner.DEFUALT;
-    static public bool WinnerToBool(Winner w)
-    {
-        switch (w)
-        {
-            case Winner.TRUE:
-                return true;
-            case Winner.FALSE:
-                return false;
-
-            default:
-                throw new ArgumentException($"should be {nameof(Winner.TRUE)} or {nameof(Winner.FALSE)}");
-        }
-    }
+    public Winner Win { get; protected set; } = Winner.NO_ONE_YET;
+    
 
     private int howManyThere(int x, int y, bool player, Direction dir)
     {
@@ -53,26 +46,29 @@ public class InnerBoard
     }
     public Winner? CalcWin(int x, int y)
     {
-        if (Win != Winner.DEFUALT) return Win;
-        if (MetaData.OutOfRange(x, y)||(board[x, y] == Empty) ) return Winner.DEFUALT;
-        bool player = (bool)board[x, y]!;
-
-
-        //asuming there can only be one winner since when one becomes a winner the win automatically changes to be him
-        if (player == Empty) return Winner.DEFUALT;
-        else if (1 + howManyThere(x, y, player, Direction.Up) +
-            howManyThere(x, y, player, Direction.Down) >= MetaData.howManyToWin) Win = player == false/*player == 'O'*/ ? Winner.FALSE : Winner.TRUE;
-        else if (1 + howManyThere(x, y, player, Direction.Right) +
-            howManyThere(x, y, player, Direction.Left) >= MetaData.howManyToWin) Win = player == false/*player == 'O'*/ ? Winner.FALSE : Winner.TRUE;
-        else if (1 + howManyThere(x, y, player, Direction.UpRight) +
-            howManyThere(x, y, player, Direction.DownLeft) >= MetaData.howManyToWin) Win = player == false/*player == 'O'*/ ? Winner.FALSE : Winner.TRUE;
-        else if (1 + howManyThere(x, y, player, Direction.UpLeft) +
-            howManyThere(x, y, player, Direction.DownRight) >= MetaData.howManyToWin) Win = player == false/*player == 'O'*/ ? Winner.FALSE : Winner.TRUE;
-        else if (board.Cast<bool?>().All(ch => ch != Empty))
+        if (!Win.Equals(Winner.NO_ONE_YET)) return Win;
+        else if (MetaData.OutOfRange(x, y) || (board[x, y] == Empty)) Win = Winner.NO_ONE_YET;
+        else
         {
-            Win = Winner.TIE;
-            //because if they are all not empty and there is a winner it should have been 
-            //made him in his turn
+            bool player = (bool)board[x, y]!;
+
+
+            //asuming there can only be one winner since when one becomes a winner the win automatically changes to be him
+
+            if (-1 + howManyThere(x, y, player, Direction.Up) +
+                howManyThere(x, y, player, Direction.Down) >= MetaData.howManyToWin) Win = Winner.FromBool(player);
+            else if (-1 + howManyThere(x, y, player, Direction.Right) +
+                howManyThere(x, y, player, Direction.Left) >= MetaData.howManyToWin) Win = Winner.FromBool(player);
+            else if (-1 + howManyThere(x, y, player, Direction.UpRight) +
+                howManyThere(x, y, player, Direction.DownLeft) >= MetaData.howManyToWin) Win = Winner.FromBool(player);
+            else if (-1 + howManyThere(x, y, player, Direction.UpLeft) +
+                howManyThere(x, y, player, Direction.DownRight) >= MetaData.howManyToWin) Win = Winner.FromBool(player);
+            else if (board.Cast<bool?>().All(ch => ch != Empty))
+            {
+                Win = Winner.TIE;
+                //because if they are all not empty and there is a winner it should have been 
+                //made him in his Turn
+            }
         }
 
         return Win;

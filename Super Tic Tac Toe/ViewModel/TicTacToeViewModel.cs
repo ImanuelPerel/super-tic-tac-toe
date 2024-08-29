@@ -26,7 +26,7 @@ public class TicTacToeViewModel
     /// false for 'O'
     /// true for 'X'
     /// </summary>
-    internal bool turn = true;
+    internal bool Turn { get; set; } = true;
     internal OuterBoard board = new OuterBoard();
 
     /// <summary>
@@ -45,32 +45,37 @@ public class TicTacToeViewModel
         BoardChange = (board.CurrentInnerBoard, BoardChange.Item2);
 
         //Button clickedButton = (Button)sender;
-        if (!(sender is Button clickedButton)) return;
+        if (sender is not Button clickedButton) return;
         // Identify which button was clicked and update the game state
         int innerRow = Grid.GetRow(clickedButton);
         int innerColumn = Grid.GetColumn(clickedButton);
         int outerRow = Grid.GetRow((Grid)clickedButton.Parent);
         int outerColumn = Grid.GetColumn((Grid)clickedButton.Parent);
         clickedButton.IsEnabled = false;
-        clickedButton.Content = MetaData.symbols[turn];
+        clickedButton.Content = MetaData.symbols[Turn];
         board.TakeTurn(
             xInner: innerRow,
             yInner: innerColumn,
             xOuter: outerRow,
             yOuter: outerColumn,
-            player: turn);
+            player: Turn);
 
+        if (board.Win.Equals(Winner.NO_ONE_YET))
+            BoardChange = (BoardChange.Item1, board.CurrentInnerBoard);
+        else
+        {
 
-       BoardChange=(BoardChange.Item1,board.CurrentInnerBoard);
-
-
-        turn = !turn;
+            BoardChange = (BoardChange.Item1, null);
+        }
+        Turn = !Turn;
     }
 
     public bool IsEnabled(int innerX,int innerY,int outerX ,int outerY)
     {
+        if (!board.Win.Equals(Winner.NO_ONE_YET))
+            return false;
         if(MetaData.OutOfRange(innerX,innerY)||MetaData.OutOfRange(outerX,outerY)||
-            board[outerX, outerY].Win is not null||
+            !board[outerX, outerY].Win.Equals(Winner.NO_ONE_YET)||
             board[outerX, outerY][innerX,innerY] is not null)
             return false;
         return board.CurrentInnerBoard is not (int,int) currentInnerBoard ||

@@ -5,8 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SuperTicTacToe.View"
         mc:Ignorable="d"
-        Title="MainBoard" Height="450" Width="800">
-    <Grid x:Name="_mainGrid">
-        
+        Title="MainBoard" Height="450" Width="800"
+        xmlns:converters="clr-namespace:SuperTicTacToe.View.Converters" 
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    >
+    <!-- Add the namespace for the converter -->
+    <!-- Bind DataContext to the window itself -->
+    <Window.Resources>
+        <!-- Define the converter as a resource -->
+        <converters:BoolToCharConverter x:Key="BoolToCharConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <!-- Use the converter in the binding -->
+        <TextBlock Text="{Binding Turn, Converter={StaticResource BoolToCharConverter}, Mode=OneWay}" 
+                   Grid.Row="0" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <Grid x:Name="_mainGrid" Grid.Row="1">
+
+        </Grid>
     </Grid>
 </Window>
