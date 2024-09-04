@@ -24,7 +24,7 @@ namespace SuperTicTacToe.View;
 public partial class MainBoard : Window
 {
 
-
+    
     public bool Turn
     {
         get { return (bool)GetValue(TurnProperty); }
@@ -33,7 +33,7 @@ public partial class MainBoard : Window
 
     // Using a DependencyProperty as the backing store for Turn.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty TurnProperty =
-        DependencyProperty.Register(nameof(Turn), typeof(bool), typeof(MainBoard), new PropertyMetadata(true));
+        DependencyProperty.Register(nameof(Turn), typeof(bool), typeof(MainBoard), new PropertyMetadata(true/*, OnTurnPropertyChanged*/));
 
 
     protected TicTacToeViewModel viewModel = new TicTacToeViewModel();
@@ -52,6 +52,12 @@ public partial class MainBoard : Window
     {
        
         InitializeComponent();
+        // Set DataContext to the viewModel instance for binding
+        //DataContext = viewModel;
+
+        // Initialize the Turn property to match the ViewModel
+        Turn = viewModel.Turn;
+
         InitializeDynamicGrid();
     }
 
@@ -59,16 +65,16 @@ public partial class MainBoard : Window
     private void InitializeDynamicGrid()
     {
         // Set up the main grid
-        for (int i = 0; i < MetaData.BoardSize; i++)
+        for (int i = 0; i < MetaData.BoardSizeRows; i++)
         {
             _mainGrid.RowDefinitions.Add(new RowDefinition());
             _mainGrid.ColumnDefinitions.Add(new ColumnDefinition());
         }
 
         // Create the small grids dynamically
-        for (int mainRow = 0; mainRow < MetaData.BoardSize; mainRow++)
+        for (int mainRow = 0; mainRow < MetaData.BoardSizeRows; mainRow++)
         {
-            for (int mainCol = 0; mainCol < MetaData.BoardSize; mainCol++)
+            for (int mainCol = 0; mainCol < MetaData.BoardSizeRows; mainCol++)
             {
                 Grid smallGrid = new Grid
                 {
@@ -80,16 +86,16 @@ public partial class MainBoard : Window
                 Grid.SetColumn(smallGrid, mainCol);
 
                 // Define rows and columns for smallGrid
-                for (int i = 0; i < MetaData.BoardSize; i++)
+                for (int i = 0; i < MetaData.BoardSizeRows; i++)
                 {
                     smallGrid.RowDefinitions.Add(new RowDefinition());
                     smallGrid.ColumnDefinitions.Add(new ColumnDefinition());
                 }
 
                 // Add buttons to each small grid
-                for (int row = 0; row < MetaData.BoardSize; row++)
+                for (int row = 0; row < MetaData.BoardSizeRows; row++)
                 {
-                    for (int col = 0; col < MetaData.BoardSize; col++)
+                    for (int col = 0; col < MetaData.BoardSizeRows; col++)
                     {
                         Button button = new Button
                         {
@@ -104,7 +110,8 @@ public partial class MainBoard : Window
                         button.Click += viewModel.Click; // Attach event handler
                         button.Click += turnOnAndOff;
                         button.Click += updateTurn;
-
+                        button.Click += updateInnerBoard;
+                        button.Click += viewModel.CheckForWin;
                         // Add button to smallGrid
                         smallGrid.Children.Add(button);
                     }
@@ -182,4 +189,61 @@ public partial class MainBoard : Window
 
     }
     private void updateTurn(object sender,EventArgs e) { Turn = viewModel.Turn; }
+    
+    private void updateInnerBoard(object sender,EventArgs e)
+    {
+        if (sender is not Button button|| button.Parent is not Grid smallGrid)
+            return;
+        int x=Grid.GetRow(smallGrid);
+        int y=Grid.GetColumn(smallGrid);
+        Winner win = viewModel.PassWinOfInnerBoard(x, y);
+
+        if (!win.Equals(Winner.NO_ONE_YET)) // Check if there is a winner
+        {
+            MainGrid.Children.Remove(smallGrid);
+
+            
+            // Calculate a suitable font size based on the cell dimensions
+            double fontSize = Math.Min(
+                MainGrid.ColumnDefinitions[y].ActualWidth,
+                MainGrid.RowDefinitions[x].ActualHeight
+                ) / 2; // Adjust division factor as needed for desired size
+
+            Label label = new Label
+            {
+                Content = MetaData.SymbolConvertor(win),
+                Margin = new Thickness(5),
+
+                // Stretch the text across the entire label
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center,
+
+                // Set the alignment to stretch for the label itself
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+
+                // Set the background color based on the win state using MetaData.ColorConvertor(win)
+                Background = new SolidColorBrush(MetaData.ColorConvertor(win)),
+
+                // Dynamically set the font size
+                FontSize = fontSize
+            };
+
+            // Set row and column
+            Grid.SetRow(label, x);
+            Grid.SetColumn(label, y);
+            MainGrid.Children.Add(label);
+        }
+    }
+    
+
+    // Callback method for when the DependencyProperty changes
+    //private static void OnTurnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    //{
+    //    if (d is MainBoard mainBoard && mainBoard.viewModel != null &&(e.NewValue is bool booleanValue||e.NewValue is null))
+    //    {
+    //        // Update the viewModel when the Turn property changes
+    //        mainBoard.viewModel.Turn = (bool?)e.NewValue;
+    //    }
+    //}
 }

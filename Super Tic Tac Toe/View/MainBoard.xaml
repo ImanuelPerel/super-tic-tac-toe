@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SuperTicTacToe.View"
         mc:Ignorable="d"
-        Title="MainBoard" Height="450" Width="800"
+        Title="MainBoard" Height="500" Width="475"
         xmlns:converters="clr-namespace:SuperTicTacToe.View.Converters" 
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
     >
@@ -18,10 +18,10 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="19*"/>
         </Grid.RowDefinitions>
         <!-- Use the converter in the binding -->
-        <TextBlock Text="{Binding Turn, Converter={StaticResource BoolToCharConverter}, Mode=OneWay}" 
+        <TextBlock Text="{Binding Turn,Converter={StaticResource BoolToCharConverter}, Mode=OneWay}" IsEnabled="False" 
                    Grid.Row="0" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
         <Grid x:Name="_mainGrid" Grid.Row="1">

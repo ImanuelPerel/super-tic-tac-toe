@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using System.Windows.Automation.Peers;
 using System.Windows.Input;
 using System.Windows.Media;
+using MyCsLibrary0.Games.BoardGames;
+
+
 
 namespace SuperTicTacToe.Model;
 public interface IReadOnlyInnerBoard
@@ -20,11 +23,11 @@ public interface IReadOnlyInnerBoard
 /// false for 'O'
 /// and null for an empty place
 /// </summary>
-public class InnerBoard : IReadOnlyInnerBoard
+public class InnerBoard : Board<bool?>, IReadOnlyInnerBoard
 {
-    public static bool? Empty => null;
-    bool?[,] board;
-    public bool? this[int x, int y] { get => board[x, y]; }
+    //static new public bool? Empty => null;
+    //bool?[,] board;
+    //public bool? this[int x, int y] { get => board[x, y]; }
     public void TakeTurn(bool player, int x, int y)
     {
         if (MetaData.OutOfRange(x, y))
@@ -36,55 +39,27 @@ public class InnerBoard : IReadOnlyInnerBoard
     }
 
     public Winner Win { get; protected set; } = Winner.NO_ONE_YET;
-    
 
-    private int howManyThere(int x, int y, bool player, Direction dir)
-    {
-        if (MetaData.OutOfRange(x, y)) return 0;
-        if (board[x, y] != player) return 0;
-        return 1 + howManyThere(x + dir.X, y + dir.Y, player, dir);
-    }
+
     public Winner? CalcWin(int x, int y)
     {
         if (!Win.Equals(Winner.NO_ONE_YET)) return Win;
         else if (MetaData.OutOfRange(x, y) || (board[x, y] == Empty)) Win = Winner.NO_ONE_YET;
-        else
+        //asuming there can only be one winner since when one becomes a winner the win automatically changes to be him
+        else if (WhichIsThereInNInARowDoubleDirection(x, y, MetaData.HowManyToWinInner) is bool player)
+            Win = Winner.FromBool(player);
+        else /*player is null*/if (board.Cast<bool?>().All(ch => ch != Empty))
         {
-            bool player = (bool)board[x, y]!;
-
-
-            //asuming there can only be one winner since when one becomes a winner the win automatically changes to be him
-
-            if (-1 + howManyThere(x, y, player, Direction.Up) +
-                howManyThere(x, y, player, Direction.Down) >= MetaData.howManyToWin) Win = Winner.FromBool(player);
-            else if (-1 + howManyThere(x, y, player, Direction.Right) +
-                howManyThere(x, y, player, Direction.Left) >= MetaData.howManyToWin) Win = Winner.FromBool(player);
-            else if (-1 + howManyThere(x, y, player, Direction.UpRight) +
-                howManyThere(x, y, player, Direction.DownLeft) >= MetaData.howManyToWin) Win = Winner.FromBool(player);
-            else if (-1 + howManyThere(x, y, player, Direction.UpLeft) +
-                howManyThere(x, y, player, Direction.DownRight) >= MetaData.howManyToWin) Win = Winner.FromBool(player);
-            else if (board.Cast<bool?>().All(ch => ch != Empty))
-            {
-                Win = Winner.TIE;
-                //because if they are all not empty and there is a winner it should have been 
-                //made him in his Turn
-            }
+            Win = Winner.TIE;
+            //because if they are all not empty and there was a winner before it should have been 
+            //made him the winner in his Turn when he won
         }
-
         return Win;
     }
-    public InnerBoard()
+    public InnerBoard() : base(MetaData.BoardSizeRows, MetaData.BoardSizeCols)
     {
-        board = new bool?[MetaData.BoardSize, MetaData.BoardSize];
-        for (int i = 0; i < MetaData.BoardSize; i++)
-        {
-            for (int j = 0; j < MetaData.BoardSize; j++)
-            {
-                board[i, j] = InnerBoard.Empty;
-            }
-        }
-
     }
+
 }
 
 
