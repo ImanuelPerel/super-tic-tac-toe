@@ -13,7 +13,7 @@
     <!-- Bind DataContext to the window itself -->
     <Window.Resources>
         <!-- Define the converter as a resource -->
-        <converters:BoolToCharConverter x:Key="BoolToCharConverter"/>
+        <converters:WhosTurnIsThis x:Key="BoolToCharConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

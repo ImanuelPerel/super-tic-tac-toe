@@ -13,9 +13,11 @@ namespace SuperTicTacToe;
 public static class MetaData
 {
 
-    static private int boardSizeRows = 2;
-    static private int boardSizeCols = boardSizeRows;
+    static private int boardSizeRows = 3;
+    //static private int boardSizeCols = boardSizeRows;
+    static private int boardSizeCols = 3;
     private static int howManyToWinInner = Math.Min(boardSizeRows, boardSizeCols);
+    //private static int howManyToWinInner = 10;
     private static int howManyToWinOuter = howManyToWinInner;
     public static char DefualtChar { get; set; } = ' ';
     public static char CharForTie { get; set; } = '-';
@@ -76,10 +78,10 @@ public static class MetaData
 
     static public readonly Dictionary<Winner, Color> ColorsDict = new()
     {
-        { Winner.NO_ONE_YET, Colors.Gray }, // White color for no winner yet
-        { Winner.Player1, Colors.Blue },           // Blue color for player X's win
-        { Winner.Player2, Colors.Red },            // Red color for player O's win
-        { Winner.TIE, Colors.Orange }          // Gray color for a tie
+        { Winner.NO_ONE_YET, Colors.Gray }, // grey color for no winner yet
+        { Winner.Player1, Color.FromRgb(126, 162, 252) },           // Blue color for player X's win
+        { Winner.Player2, Color.FromRgb(255, 119, 119) },            // Red color for player O's win
+        { Winner.TIE,Color.FromRgb(252, 181, 101)}          // orange color for a tie
     };
     static public char SymbolConvertor(object obj)
     {

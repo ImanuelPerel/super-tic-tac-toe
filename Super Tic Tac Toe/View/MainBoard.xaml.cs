@@ -68,13 +68,16 @@ public partial class MainBoard : Window
         for (int i = 0; i < MetaData.BoardSizeRows; i++)
         {
             _mainGrid.RowDefinitions.Add(new RowDefinition());
+            
+        }
+        for(int j=0;j<MetaData.BoardSizeCols; j++)
+        {
             _mainGrid.ColumnDefinitions.Add(new ColumnDefinition());
         }
-
         // Create the small grids dynamically
         for (int mainRow = 0; mainRow < MetaData.BoardSizeRows; mainRow++)
         {
-            for (int mainCol = 0; mainCol < MetaData.BoardSizeRows; mainCol++)
+            for (int mainCol = 0; mainCol < MetaData.BoardSizeCols; mainCol++)
             {
                 Grid smallGrid = new Grid
                 {
@@ -89,13 +92,16 @@ public partial class MainBoard : Window
                 for (int i = 0; i < MetaData.BoardSizeRows; i++)
                 {
                     smallGrid.RowDefinitions.Add(new RowDefinition());
+                    
+                }
+                for (int j = 0; j < MetaData.BoardSizeCols; j++)
+                {
                     smallGrid.ColumnDefinitions.Add(new ColumnDefinition());
                 }
-
                 // Add buttons to each small grid
                 for (int row = 0; row < MetaData.BoardSizeRows; row++)
                 {
-                    for (int col = 0; col < MetaData.BoardSizeRows; col++)
+                    for (int col = 0; col < MetaData.BoardSizeCols; col++)
                     {
                         Button button = new Button
                         {

@@ -29,7 +29,7 @@ namespace SuperTicTacToe.View
 
         private void Play(object sender, RoutedEventArgs e)
         {
-            new MainBoard().Show();
+            new MainBoard().ShowDialog();
         }
     }
 }
