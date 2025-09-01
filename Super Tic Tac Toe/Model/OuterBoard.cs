@@ -54,7 +54,7 @@ public class OuterBoard : Board<InnerBoard>
             else
                 Win = Winner.NO_ONE_YET;
         }
-        else if (WhichIsThereInNInARowDoubleDirection(x, y, MetaData.HowManyToWinOuter, key: innerBoard => innerBoard.Win) is Winner winnerPlayer)
+        else if (AreThereNInARowDoubleDirection(x, y, MetaData.HowManyToWinOuter, key: innerBoard => innerBoard.Win) is Winner winnerPlayer)
         {
             Win = winnerPlayer;
         }

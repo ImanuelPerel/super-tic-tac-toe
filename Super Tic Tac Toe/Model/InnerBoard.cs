@@ -46,7 +46,7 @@ public class InnerBoard : Board<bool?>, IReadOnlyInnerBoard
         if (!Win.Equals(Winner.NO_ONE_YET)) return Win;
         else if (MetaData.OutOfRange(x, y) || (board[x, y] == Empty)) Win = Winner.NO_ONE_YET;
         //asuming there can only be one winner since when one becomes a winner the win automatically changes to be him
-        else if (WhichIsThereInNInARowDoubleDirection(x, y, MetaData.HowManyToWinInner) is bool player)
+        else if (AreThereNInARowDoubleDirection(x, y, MetaData.HowManyToWinInner) is bool player)
             Win = Winner.FromBool(player);
         else /*player is null*/if (board.Cast<bool?>().All(ch => ch != Empty))
         {

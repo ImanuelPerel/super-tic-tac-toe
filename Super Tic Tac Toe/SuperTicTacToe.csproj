@@ -10,7 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MyCsLibrary0" Version="2.1.1" />
+    <!-- link to MyCsLibrary0 -->
+    <ProjectReference Include="..\..\MyLibrary0\MyCsLibrary0\MyCsLibrary0.csproj" />
   </ItemGroup>
 
 </Project>
